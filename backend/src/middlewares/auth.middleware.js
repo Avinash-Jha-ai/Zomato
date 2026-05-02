@@ -33,7 +33,9 @@ export const authenticateUser = async (req, res, next) => {
     });
   }
 };
-export const authenticateArtist =async (req,res,next) =>{
+
+
+export const authenticateAdmin = async (req, res, next) => {
   try {
     const token = req.cookies?.token;
 
@@ -54,11 +56,11 @@ export const authenticateArtist =async (req,res,next) =>{
       });
     }
 
-    if(user.role!=="artist"){
+    if(user.role.toString()!=="admin"){
       return res.status(401).json({
         message: "Unauthorized: User not found",
         success: false,
-      }); 
+      })
     }
 
     req.user = user;
@@ -70,5 +72,6 @@ export const authenticateArtist =async (req,res,next) =>{
       success: false,
     });
   }
-}
-export const authenticateUserByEmail = authenticateUser;
+};
+
+

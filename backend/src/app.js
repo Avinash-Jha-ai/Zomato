@@ -2,7 +2,7 @@ import express from "express"
 import authRouter from "./routes/auth.route.js"
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-
+import heroRouter from "./routes/heroSection.route.js"
 const app =express();
 
 
@@ -18,6 +18,6 @@ app.get('/', (req, res) => {
 
 
 app.use("/api/auth",authRouter);
-
+app.use("/api/hero",heroRouter);
 
 export default app;
