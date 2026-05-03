@@ -88,6 +88,8 @@ export const getProfile = async (req, res) => {
     });
   }
 };
+
+
 export const updateProfile = async (req, res) => {
   const userId = req.user._id;
   const { name, address } = req.body;
