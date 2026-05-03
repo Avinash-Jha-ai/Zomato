@@ -6,6 +6,8 @@ import heroRouter from "./routes/heroSection.route.js"
 import productRouter from "./routes/product.route.js";
 import profileRouter from "./routes/profile.route.js"
 import cardRouter from "./routes/card.route.js"
+import searchRouter from "./routes/search.route.js"
+
 const app =express();
 
 
@@ -25,5 +27,5 @@ app.use("/api/hero",heroRouter);
 app.use("/api/product",productRouter)
 app.use("/api/profile",profileRouter);
 app.use("/api/card",cardRouter);
-
+app.use("/api",searchRouter);
 export default app;

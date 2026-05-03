@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const cardModel =new mongoose.Schema({
+const cardSchema =new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
@@ -18,7 +18,7 @@ const cardModel =new mongoose.Schema({
 },{timestamps:true});
 
 
-const cardModel =mongoose.model("card",cardModel);
+const cardModel =mongoose.model("card",cardSchema);
 
 export default cardModel
 

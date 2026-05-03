@@ -6,7 +6,13 @@ import {updateProfile,uploadProfile,getProfile} from "../controllers/profile.con
 const router=Router();
 
 
-router.post("/upload",authenticateUser,upload.single("image"),uploadProfile);
+router.post("/upload",authenticateUser,
+  upload.fields([
+    { name: "banner", maxCount: 1 },
+    { name: "avatar", maxCount: 1 }
+  ]),
+  uploadProfile
+);
 
 router.get("/",authenticateUser,getProfile);
 

@@ -25,7 +25,7 @@ const productSchema =new mongoose.Schema({
     },
     veg:{
         type:Boolean,
-        required:true
+        default:true
     },
     images:[
         {

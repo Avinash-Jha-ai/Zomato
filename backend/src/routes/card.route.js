@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {authenticateAdmin ,authenticateUser} from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/upload.middleware.js";
-import { getCard,addToCard,deleteProductFromCart,clearCard } from "../controllers/card.controller.js";
+import { getCard,addToCard,deleteProductFromCard,clearCard } from "../controllers/card.controller.js";
 const router=Router();
 
 router.get("/add/:product",authenticateUser,addToCard);
