@@ -4,6 +4,7 @@ import morgan from "morgan";
 import authRouter from "./routes/auth.route.js"
 import heroRouter from "./routes/heroSection.route.js"
 import productRouter from "./routes/product.route.js";
+import profileRouter from "./routes/profile.route.js"
 const app =express();
 
 
@@ -21,5 +22,6 @@ app.get('/', (req, res) => {
 app.use("/api/auth",authRouter);
 app.use("/api/hero",heroRouter);
 app.use("/api/product",productRouter)
+app.use("/api/profile",profileRouter);
 
 export default app;

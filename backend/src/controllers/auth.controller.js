@@ -5,7 +5,6 @@ import {config} from "../configs/config.js"
 
 export const register =async (req,res) => {
     const {username , email ,password} =req.body;
-    const file =req.file;
 
     try{
 
@@ -24,18 +23,10 @@ export const register =async (req,res) => {
             })
         }
 
-        let avatarUrl = "https://ik.imagekit.io/Avinash/humman_ai/Screenshot_2026-02-14_at_3.28.35%C3%A2__PM_W7WhezCB5j.png?updatedAt=1777186418645";
-        
-        if (file) {
-            const result = await uploadFile(file, "/spotify/avatar");
-            avatarUrl = result.secure_url;
-        }
-
         const user = await userModel.create({
             username,
             email,
             password,
-            avatar: avatarUrl,
         });
 
         const token =jwt.sign({
@@ -58,7 +49,7 @@ export const register =async (req,res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                avatar: user.avatar,
+              
             }
         });
 
@@ -129,7 +120,6 @@ export const login =async (req,res)=>{
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                avatar: user.avatar,
                 role: user.role
             }
         });
@@ -169,7 +159,7 @@ export const getMe =async (req,res)=>{
                 id:user._id,
                 email:user.email,
                 username:user.username,
-                avatar:user.avatar,
+            
                 role:user.role
             }
         })
