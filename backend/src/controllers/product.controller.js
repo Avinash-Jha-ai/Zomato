@@ -73,7 +73,7 @@ export const getAllProduct = async (req, res) => {
 };
 
 export const getProduct =async (req,res)=>{
-    const {productId} =req.params;
+    const {product: productId} = req.params;
 
     try{
         const product =await productModel.findById(productId);

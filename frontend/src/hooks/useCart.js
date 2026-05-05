@@ -5,8 +5,8 @@ import { useDispatch } from "react-redux"
 export const useCart = () => {
     const dispatch=useDispatch();
 
-    const handleAddToCart =async (product)=>{
-        const data =await addToCart(product);
+    const handleAddToCart = async (product, quantity = 1) => {
+        const data = await addToCart(product, quantity);
         dispatch(addItem(data.cartItem));
     }
 

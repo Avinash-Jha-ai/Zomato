@@ -1,7 +1,7 @@
 import API from "../utils/axios.js";
 
-export const addToCart = async (productId) => {
-  const response = await API.post(`/cart/add/${productId}`);
+export const addToCart = async (productId, quantity = 1) => {
+  const response = await API.post(`/cart/add/${productId}`, { quantity });
   return response.data;
 };
 
