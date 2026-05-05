@@ -76,7 +76,11 @@ export default function Home() {
       } else if (localSearch === '') {
         handleClearSearch();
         if (searchQ) setSearchParams(activeCategory !== 'all' ? { filter: activeCategory } : {});
-        if (!filterQ) handleGetProducts();
+        
+        // Restore products based on current category
+        if (activeCategory === 'all') handleGetProducts();
+        else if (activeCategory === 'veg') handleGetVeg();
+        else if (activeCategory === 'nonveg') handleGetNonVeg();
       }
     }, 400);
 

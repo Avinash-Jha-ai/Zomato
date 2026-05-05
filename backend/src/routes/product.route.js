@@ -7,11 +7,11 @@ const router =Router();
 
 router.post("/upload", authenticateUser, isAdmin, upload.array("images"), uploadProduct);
 
-router.get("/",authenticateUser,getAllProduct);
-router.get("/veg",authenticateUser,getVeg);
-router.get("/nonVeg",authenticateUser,getNonVeg);
+router.get("/",getAllProduct);
+router.get("/veg",getVeg);
+router.get("/nonVeg",getNonVeg);
 
-router.get("/:product",authenticateUser,getProduct);
+router.get("/:product",getProduct);
 router.delete("/delete/:product", authenticateUser, isAdmin, deleteProduct);
 router.put("/update/:product", authenticateUser, isAdmin, updateProduct);
 
