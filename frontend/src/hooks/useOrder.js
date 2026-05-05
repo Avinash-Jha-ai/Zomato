@@ -4,8 +4,11 @@ import { useDispatch } from "react-redux";
 import { clearCart } from "../services/cart.service.js";
 import { setCart } from "../states/cart.slice.js";
 
+import { useNavigate } from "react-router-dom";
+
 export const useOrder = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleGetMyOrders = async () => {
     try {
@@ -52,6 +55,7 @@ export const useOrder = () => {
             // Automatically clear cart after successful payment
             await clearCart();
             dispatch(setCart([]));
+            navigate("/orders");
           } catch {
             dispatch(setError("Payment verification failed"));
           }
