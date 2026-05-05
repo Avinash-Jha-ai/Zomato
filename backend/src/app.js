@@ -23,8 +23,17 @@ app.use(rateLimit({
     message: "Too many requests from this IP, please try again after 15 minutes"
 }));
 
+const allowedOrigins = [
+    "http://localhost:5173", 
+    "http://localhost:5174", 
+    "http://localhost:5175", 
+    "http://localhost:5176",
+    process.env.FRONTEND_URL,
+    process.env.ADMIN_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176"], 
+    origin: allowedOrigins,
     credentials: true
 }));
 app.use(morgan("dev"));
