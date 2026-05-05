@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useCart } from '../hooks/useCart';
 import { useToast } from '../contexts/ToastContext';
 
-export default function ProductCard({ product }) {
+export function ProductCard({ product }) {
   const { isAuthenticated } = useSelector(s => s.auth);
   const { handleAddToCart } = useCart();
   const toast = useToast();
@@ -123,3 +123,5 @@ export default function ProductCard({ product }) {
     </Link>
   );
 }
+
+export default ProductCard;

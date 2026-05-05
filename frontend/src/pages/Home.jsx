@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import HeroSlider from '../components/HeroSlider';
-import ProductCard from '../components/ProductCard';
+import { ProductCard } from '../components/ProductCard';
 import { useProduct } from '../hooks/useProduct';
 import { useHero } from '../hooks/useHero';
 import { useSearch } from '../hooks/useSearch';

@@ -8,21 +8,28 @@ import ProductDetail from '../pages/ProductDetail';
 import Profile from '../pages/Profile';
 import Cart from '../pages/Cart';
 import OrderHistory from '../pages/OrderHistory';
+import ErrorPage from '../pages/ErrorPage';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> },
-  { path: '/about', element: <AboutUs /> },
-  { path: '/privacy', element: <PrivacyPolicy /> },
-  { path: '/login', element: <Login /> },
-  { path: '/register', element: <Register /> },
-  { path: '/product/:id', element: <ProductDetail /> },
   {
-    element: <ProtectedRoute />,
+    path: '/',
+    errorElement: <ErrorPage />,
     children: [
-      { path: '/profile', element: <Profile /> },
-      { path: '/cart', element: <Cart /> },
-      { path: '/orders', element: <OrderHistory /> },
+      { path: '/', element: <Home /> },
+      { path: '/about', element: <AboutUs /> },
+      { path: '/privacy', element: <PrivacyPolicy /> },
+      { path: '/login', element: <Login /> },
+      { path: '/register', element: <Register /> },
+      { path: '/product/:id', element: <ProductDetail /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: '/profile', element: <Profile /> },
+          { path: '/cart', element: <Cart /> },
+          { path: '/orders', element: <OrderHistory /> },
+        ],
+      },
     ],
   },
 ]);
