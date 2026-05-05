@@ -45,6 +45,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 
 app.use("/api/auth",authRouter);
 app.use("/api/hero",heroRouter);
