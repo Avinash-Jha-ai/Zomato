@@ -8,7 +8,7 @@ import productRouter from "./routes/product.route.js";
 import profileRouter from "./routes/profile.route.js"
 import cartRouter from "./routes/cart.route.js"
 import searchRouter from "./routes/search.route.js"
-
+import orderRouter from "./routes/order.route.js"
 
 const app =express();
 
@@ -16,7 +16,7 @@ const app =express();
 
 
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"], // Allowing both common Vite ports
+    origin: ["http://localhost:5173", "http://localhost:5174"], 
     credentials: true
 }));
 app.use(morgan("dev"));
@@ -35,4 +35,7 @@ app.use("/api/product",productRouter)
 app.use("/api/profile",profileRouter);
 app.use("/api/cart",cartRouter);
 app.use("/api",searchRouter);
+app.use("api",orderRouter);
+
+
 export default app;
