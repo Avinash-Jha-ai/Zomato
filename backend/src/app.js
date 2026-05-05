@@ -15,6 +15,9 @@ import rateLimit from "express-rate-limit";
 
 const app = express();
 
+// Handle favicon requests immediately to avoid security middleware interference
+app.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // Security & Optimization
 app.use(helmet());
 app.use(rateLimit({
@@ -44,8 +47,6 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-
-app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 
 app.use("/api/auth",authRouter);
