@@ -33,7 +33,7 @@ function ProductSkeleton() {
 
 export default function Home() {
   const dispatch = useDispatch();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const searchQ = searchParams.get('search');
   const filterQ = searchParams.get('filter');
 
