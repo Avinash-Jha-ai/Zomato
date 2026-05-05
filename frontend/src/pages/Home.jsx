@@ -70,17 +70,18 @@ export default function Home() {
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (localSearch.trim()) {
-        handleSearch({ query: localSearch });
-        setSearchParams({ search: localSearch });
+        const vegFilter = activeCategory === 'veg' ? 'true' : activeCategory === 'nonveg' ? 'false' : undefined;
+        handleSearch({ query: localSearch, veg: vegFilter });
+        setSearchParams({ search: localSearch, ...(activeCategory !== 'all' && { filter: activeCategory }) });
       } else if (localSearch === '') {
         handleClearSearch();
-        if (searchQ) setSearchParams({});
+        if (searchQ) setSearchParams(activeCategory !== 'all' ? { filter: activeCategory } : {});
         if (!filterQ) handleGetProducts();
       }
     }, 400);
 
     return () => clearTimeout(delayDebounce);
-  }, [localSearch]);
+  }, [localSearch, activeCategory]);
 
   const displayProducts = localSearch.trim() ? searchResults : products;
   const isLoading = localSearch.trim() ? searchLoading : productLoading;
