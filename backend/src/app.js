@@ -10,21 +10,8 @@ import searchRouter from "./routes/search.route.js"
 import orderRouter from "./routes/order.route.js"
 import adminRouter from "./routes/admin.route.js"
 
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
 
 const app = express();
-
-// Security & Optimization
-app.use(helmet({
-    contentSecurityPolicy: false,
-    crossOriginResourcePolicy: false,
-}));
-app.use(rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: "Too many requests from this IP, please try again after 15 minutes"
-}));
 
 const allowedOrigins = [
     "http://localhost:5173", 
