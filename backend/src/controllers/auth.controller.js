@@ -64,6 +64,68 @@ export const register =async (req,res) => {
     }
 }
 
+export const adminRegister =async (req,res) => {
+    const {username , email ,password} =req.body;
+
+    try{
+
+        if (!username || !email || !password) {
+            return res.status(400).json({ 
+                message: "All fields are required", 
+                success: false 
+            });
+        }
+
+        const isAlreadyUser =await userModel.findOne({email});
+        if(isAlreadyUser){
+            return res.status(400).json({
+                message:"user already exist",
+                success:false
+            })
+        }
+
+        const user = await userModel.create({
+            username,
+            email,
+            password,
+            role:"admin"
+        });
+
+        const token =jwt.sign({
+            id:user._id
+        },config.JWT_SECRET,{
+            expiresIn:"1d"
+        })
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production", 
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", 
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        return res.status(201).json({
+            message: "User registered successfully",
+            success: true,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+              
+            }
+        });
+
+
+    }catch(error){
+        console.log("error in register : ",error);
+        return res.status(500).json({
+            message:"error in register ",
+            success:false,
+            error:error
+        })
+    }
+}
+
 
 export const login =async (req,res)=>{
     const {email,password}=req.body;
