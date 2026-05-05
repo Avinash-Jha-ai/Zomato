@@ -7,9 +7,13 @@ const orderSlice = createSlice({
     razorpayOrder: null,    
     loading: false,
     error: null,
-    success: false,       
+    success: false,
+    orders: [],
   },
   reducers: {
+    setOrders: (state, action) => {
+      state.orders = action.payload;
+    },
     setOrder: (state, action) => {
       state.currentOrder = action.payload.order;
       state.razorpayOrder = action.payload.razorpayOrder;
@@ -33,6 +37,7 @@ const orderSlice = createSlice({
 });
 
 export const {
+  setOrders,
   setOrder,
   setSuccess,
   setLoading,

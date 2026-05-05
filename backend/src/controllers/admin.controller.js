@@ -32,7 +32,7 @@ export const getDashboardStats = async (req, res) => {
 export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("user", "name email phone address")
+      .populate("user", "username email phone address")
       .sort({ createdAt: -1 });
 
     res.json(orders);

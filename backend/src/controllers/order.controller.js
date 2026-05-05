@@ -46,12 +46,21 @@ export const verifyPayment = async (req, res) => {
     await Order.findOneAndUpdate(
       { razorpayOrderId: razorpay_order_id },
       {
-        status: "paid",
+        status: "confirmed",
         razorpayPaymentId: razorpay_payment_id,
       }
     );
 
     res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getUserOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+    res.json({ success: true, orders });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

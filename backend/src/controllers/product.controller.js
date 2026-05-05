@@ -4,7 +4,7 @@ import {uploadFile ,deleteFile} from "../services/storage.service.js"
 
 export const uploadProduct =async (req,res)=>{
     const userId =req.user._id;
-    const {title,description,price,available}=req.body;
+    const {title,description,price,available,veg}=req.body;
 
     try{
         if(!title || !description || !price){
@@ -31,7 +31,8 @@ export const uploadProduct =async (req,res)=>{
             title,
             description,
             price,
-            available: available !== undefined ? available : true,
+            veg: veg === 'true' || veg === true,
+            available: available !== undefined ? (available === 'true' || available === true) : true,
             images
         })
 
@@ -138,7 +139,9 @@ export const deleteProduct =async (req,res)=>{
 
 export const getVeg = async (req, res) => {
   try {
-    const products = await productModel.find({ veg: true });
+    const products = await productModel.find({ 
+      veg: { $in: [true, "true"] } 
+    });
 
     return res.status(200).json({
       success: true,
@@ -157,7 +160,9 @@ export const getVeg = async (req, res) => {
 
 export const getNonVeg = async (req, res) => {
   try {
-    const products = await productModel.find({ veg: false });
+    const products = await productModel.find({ 
+      veg: { $in: [false, "false"] } 
+    });
 
     return res.status(200).json({
       success: true,
@@ -190,8 +195,12 @@ export const updateProduct = async (req, res) => {
     if (title) product.title = title;
     if (description) product.description = description;
     if (price) product.price = price;
-    if (available !== undefined) product.available = available;
-    if (veg !== undefined) product.veg = veg;
+    if (available !== undefined) {
+      product.available = available === 'true' || available === true;
+    }
+    if (veg !== undefined) {
+      product.veg = veg === 'true' || veg === true;
+    }
 
     await product.save();
 

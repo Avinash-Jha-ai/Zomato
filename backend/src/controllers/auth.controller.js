@@ -4,22 +4,21 @@ import jwt from "jsonwebtoken"
 import {config} from "../configs/config.js"
 
 export const register =async (req,res) => {
-    const {username , email ,password} =req.body;
+    const { username, email, password, phone } = req.body;
 
-    try{
-
-        if (!username || !email || !password) {
+    try {
+        if (!username || !email || !password || !phone) {
             return res.status(400).json({ 
-                message: "All fields are required", 
+                message: "All fields are required (username, email, password, phone)", 
                 success: false 
             });
         }
 
-        const isAlreadyUser =await userModel.findOne({email});
-        if(isAlreadyUser){
+        const isAlreadyUser = await userModel.findOne({ email });
+        if (isAlreadyUser) {
             return res.status(400).json({
-                message:"user already exist",
-                success:false
+                message: "User already exists",
+                success: false
             })
         }
 
@@ -27,7 +26,9 @@ export const register =async (req,res) => {
             username,
             email,
             password,
+            phone
         });
+
 
         const token =jwt.sign({
             id:user._id
@@ -278,21 +279,28 @@ export const uploadProfile = async (req, res) => {
             });
         }
 
-        if (user.banner || user.avatar) {
-            return res.status(400).json({
-                message: "Profile already exists",
-                success: false
-            });
+        if (bannerFile && user.bannerPublic) {
+            await deleteFile(user.bannerPublic);
+        }
+        if (avatarFile && user.avatarPublic) {
+            await deleteFile(user.avatarPublic);
         }
 
-        const banner = await uploadFile(bannerFile, `zomato/${userId}/profile/banner`);
-        const avatar = await uploadFile(avatarFile, `zomato/${userId}/profile/avatar`);
+        const banner = bannerFile ? await uploadFile(bannerFile, `zomato/${userId}/profile/banner`) : null;
+        const avatar = avatarFile ? await uploadFile(avatarFile, `zomato/${userId}/profile/avatar`) : null;
 
-        user.banner = banner.secure_url;
-        user.bannerPublic = banner.public_id;
-        user.avatar = avatar.secure_url;
-        user.avatarPublic = avatar.public_id;
+        if (banner) {
+            user.banner = banner.secure_url;
+            user.bannerPublic = banner.public_id;
+        }
+        if (avatar) {
+            user.avatar = avatar.secure_url;
+            user.avatarPublic = avatar.public_id;
+        }
+        user.username = name;
         user.address = address;
+        user.phone = mobile;
+
 
         await user.save();
 
@@ -360,7 +368,7 @@ export const updateProfile = async (req, res) => {
         if (name) user.username = name;
         if (address) user.address = address;
         if (mobile) {
-            // Check if mobile is already taken by another user
+            
             const existingUser = await userModel.findOne({ phone: mobile, _id: { $ne: userId } });
             if (existingUser) {
                 return res.status(400).json({

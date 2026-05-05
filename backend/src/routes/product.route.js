@@ -5,18 +5,14 @@ import {uploadProduct,getAllProduct,getProduct,deleteProduct,getVeg,getNonVeg,up
 
 const router =Router();
 
-router.post("/upload",upload.array("images"),isAdmin,uploadProduct);
+router.post("/upload", authenticateUser, isAdmin, upload.array("images"), uploadProduct);
 
 router.get("/",authenticateUser,getAllProduct);
+router.get("/veg",authenticateUser,getVeg);
+router.get("/nonVeg",authenticateUser,getNonVeg);
 
 router.get("/:product",authenticateUser,getProduct);
-
-router.get("/delete/:product",isAdmin,deleteProduct);
-
-router.put("/update/:product",isAdmin,updateProduct);
-
-router.get("/veg",authenticateUser,getVeg);
-
-router.get("/nonVeg",authenticateUser,getNonVeg);
+router.delete("/delete/:product", authenticateUser, isAdmin, deleteProduct);
+router.put("/update/:product", authenticateUser, isAdmin, updateProduct);
 
 export default router

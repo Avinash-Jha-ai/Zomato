@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: "user"
   },
 
   items: [
@@ -27,7 +27,9 @@ const orderSchema = new mongoose.Schema({
       "cancelled"
     ],
     default: "pending"
-  }
+  },
+  razorpayOrderId: String,
+  razorpayPaymentId: String,
 
 }, { timestamps: true });
 

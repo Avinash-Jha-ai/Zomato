@@ -5,10 +5,10 @@ import {getHeroSection ,uploadHeroContent,deleteHeroSection} from "../controller
 
 const router =Router();
 
-router.post("/upload",upload.single("hero"),isAdmin,uploadHeroContent);
+router.post("/upload", authenticateUser, isAdmin, upload.single("hero"), uploadHeroContent);
 
 router.get("/",getHeroSection);
 
-router.get("/delete/:hero",isAdmin,deleteHeroSection);
+router.delete("/delete/:hero", authenticateUser, isAdmin, deleteHeroSection);
 
 export default router

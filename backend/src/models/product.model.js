@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 
-const productSchema =new mongoose.Schema({
-    user:{
+const productSchema = new mongoose.Schema({
+    user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         required: true
     },
+
     title:{
         type:String,
         required:true,

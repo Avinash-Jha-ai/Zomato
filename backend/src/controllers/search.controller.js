@@ -14,7 +14,10 @@ export const searchProducts = async (req, res) => {
     const filter = {};
 
     if (query) {
-      filter.$text = { $search: query };
+      filter.$or = [
+        { title: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } }
+      ];
     }
 
     if (veg !== undefined) {

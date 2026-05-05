@@ -1,8 +1,14 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./app.route";
+import { RouterProvider } from 'react-router-dom';
+import router from './app.route';
+import { useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
 
-function App() {
+function AppInner() {
+  const { handleGetMe } = useAuth();
+  useEffect(() => { handleGetMe(); }, []);
   return <RouterProvider router={router} />;
 }
 
-export default App;
+export default function App() {
+  return <AppInner />;
+}
