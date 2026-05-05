@@ -7,9 +7,7 @@ export const searchProducts = async (req, res) => {
     veg,
     minPrice,
     maxPrice,
-    sort,
-    page = 1,
-    limit = 10
+    sort
   } = req.query;
 
   try {
@@ -34,21 +32,13 @@ export const searchProducts = async (req, res) => {
     if (sort === "price_high") sortOption.price = -1;
     if (sort === "new") sortOption.createdAt = -1;
 
-    const skip = (page - 1) * limit;
-
     const products = await productModel
       .find(filter)
-      .sort(sortOption)
-      .skip(skip)
-      .limit(Number(limit));
-
-    const total = await productModel.countDocuments(filter);
+      .sort(sortOption);
 
     return res.status(200).json({
       success: true,
-      page: Number(page),
-      totalPages: Math.ceil(total / limit),
-      totalProducts: total,
+      totalProducts: products.length,
       products
     });
 
