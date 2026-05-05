@@ -1,14 +1,14 @@
 import { Router } from "express";
-import {authenticateAdmin ,authenticateUser} from "../middlewares/auth.middleware.js";
+import {isAdmin ,authenticateUser} from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/upload.middleware.js";
 import {getHeroSection ,uploadHeroContent,deleteHeroSection} from "../controllers/heroSection.controller.js";
 
 const router =Router();
 
-router.post("/upload",upload.single("hero"),authenticateAdmin,uploadHeroContent);
+router.post("/upload",upload.single("hero"),isAdmin,uploadHeroContent);
 
 router.get("/",getHeroSection);
 
-router.get("/delete/:hero",authenticateAdmin,deleteHeroSection);
+router.get("/delete/:hero",isAdmin,deleteHeroSection);
 
 export default router
