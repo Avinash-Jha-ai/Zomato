@@ -5,7 +5,6 @@ import cors from "cors";
 import authRouter from "./routes/auth.route.js"
 import heroRouter from "./routes/heroSection.route.js"
 import productRouter from "./routes/product.route.js";
-import profileRouter from "./routes/profile.route.js"
 import cartRouter from "./routes/cart.route.js"
 import searchRouter from "./routes/search.route.js"
 import orderRouter from "./routes/order.route.js"
@@ -32,7 +31,6 @@ app.get('/', (req, res) => {
 app.use("/api/auth",authRouter);
 app.use("/api/hero",heroRouter);
 app.use("/api/product",productRouter)
-app.use("/api/profile",profileRouter);
 app.use("/api/cart",cartRouter);
 app.use("/api",searchRouter);
 app.use("api",orderRouter);

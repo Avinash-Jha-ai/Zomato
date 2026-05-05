@@ -16,13 +16,38 @@ const userSchema = new mongoose.Schema({
         trim: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
     },
+    phone:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    address:{
+        type: String,
+        required: false,
+        trim: true
+    },
     password: {
         type: String,
         required: true,
         minlength: [8, 'Password must be at least 8 characters'],
         select: false  
     },
-    
+    banner: {
+        type: String,
+        required: false
+    },
+    bannerPublic: {
+        type: String,
+        required: false
+    },
+    avatar: {
+        type: String,
+        required: false
+    },
+    avatarPublic: {
+        type: String,
+        required: false
+    },
     role: {
         type: String,
         enum: ["admin", "user"],

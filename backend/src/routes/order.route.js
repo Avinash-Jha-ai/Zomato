@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { authenticateUser } from "../middlewares/auth.middleware.js";
 import {
   createOrder,
   verifyPayment,
@@ -6,7 +7,7 @@ import {
 
 const router = Router();
 
-router.post("/create-order", createOrder);
-router.post("/verify-payment", verifyPayment);
+router.post("/create-order",authenticateUser, createOrder);
+router.post("/verify-payment",authenticateUser, verifyPayment);
 
 export default router;

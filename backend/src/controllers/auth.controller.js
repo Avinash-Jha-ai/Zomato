@@ -1,5 +1,5 @@
 import userModel from "../models/user.model.js";
-import { uploadFile } from "../services/storage.service.js";
+import { uploadFile, deleteFile } from "../services/storage.service.js";
 import jwt from "jsonwebtoken"
 import {config} from "../configs/config.js"
 
@@ -247,5 +247,173 @@ export const logout = (req, res) => {
         success: true,
         message: "Logged out successfully"
     });
+};
+
+export const uploadProfile = async (req, res) => {
+    const { name, address, mobile } = req.body;
+    const bannerFile = req.files?.banner?.[0];
+    const avatarFile = req.files?.avatar?.[0];
+    const userId = req.user._id;
+
+    try {
+        if (!name || !address || !mobile) {
+            return res.status(400).json({
+                message: "Name, address, and mobile are required",
+                success: false
+            });
+        }
+
+        if (!bannerFile || !avatarFile) {
+            return res.status(400).json({
+                message: "Banner and avatar are required",
+                success: false
+            });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        if (user.banner || user.avatar) {
+            return res.status(400).json({
+                message: "Profile already exists",
+                success: false
+            });
+        }
+
+        const banner = await uploadFile(bannerFile, `zomato/${userId}/profile/banner`);
+        const avatar = await uploadFile(avatarFile, `zomato/${userId}/profile/avatar`);
+
+        user.banner = banner.secure_url;
+        user.bannerPublic = banner.public_id;
+        user.avatar = avatar.secure_url;
+        user.avatarPublic = avatar.public_id;
+        user.address = address;
+
+        await user.save();
+
+        return res.status(200).json({
+            message: "Profile uploaded successfully",
+            success: true,
+            user
+        });
+
+    } catch (error) {
+        console.log("Error in upload profile: ", error);
+        return res.status(500).json({
+            message: "Error in upload profile",
+            success: false,
+            error: error.message
+        });
+    }
+};
+
+export const getProfile = async (req, res) => {
+    const userId = req.user._id;
+
+    try {
+        const user = await userModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            user
+        });
+
+    } catch (error) {
+        console.log("Error in get profile:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error fetching profile",
+            error: error.message
+        });
+    }
+};
+
+export const updateProfile = async (req, res) => {
+    const userId = req.user._id;
+    const { name, address, mobile } = req.body;
+
+    const bannerFile = req.files?.banner?.[0];
+    const avatarFile = req.files?.avatar?.[0];
+
+    try {
+        const user = await userModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false
+            });
+        }
+
+        if (name) user.username = name;
+        if (address) user.address = address;
+        if (mobile) {
+            // Check if mobile is already taken by another user
+            const existingUser = await userModel.findOne({ phone: mobile, _id: { $ne: userId } });
+            if (existingUser) {
+                return res.status(400).json({
+                    message: "Mobile number already in use",
+                    success: false
+                });
+            }
+            user.phone = mobile;
+        }
+
+        if (bannerFile) {
+            if (user.bannerPublic) {
+                await deleteFile(user.bannerPublic);
+            }
+
+            const banner = await uploadFile(
+                bannerFile,
+                `zomato/${userId}/profile/banner`
+            );
+
+            user.banner = banner.secure_url;
+            user.bannerPublic = banner.public_id;
+        }
+
+        if (avatarFile) {
+            if (user.avatarPublic) {
+                await deleteFile(user.avatarPublic);
+            }
+
+            const avatar = await uploadFile(
+                avatarFile,
+                `zomato/${userId}/profile/avatar`
+            );
+
+            user.avatar = avatar.secure_url;
+            user.avatarPublic = avatar.public_id;
+        }
+
+        await user.save();
+
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            success: true,
+            user
+        });
+
+    } catch (error) {
+        console.log("Error in update profile:", error);
+        return res.status(500).json({
+            message: "Error updating profile",
+            success: false,
+            error: error.message
+        });
+    }
 };
 
