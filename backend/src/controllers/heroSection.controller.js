@@ -95,13 +95,23 @@ export const getHeroSection =async (req,res)=>{
 
 export const deleteHeroSection =async (req,res)=>{
 
-    const {heroId} =req.params;
+    const { hero } = req.params;
+    const heroId = hero;
 
     try{
 
-        const hero =await heroSectionModel.findById(heroId);
+        const heroDoc = await heroSectionModel.findById(heroId);
+        
+        if (!heroDoc) {
+          return res.status(404).json({
+            message: "Hero section not found",
+            success: false
+          });
+        }
 
-        await deleteFile(hero.public_id);
+        if (heroDoc.public_id) {
+          await deleteFile(heroDoc.public_id);
+        }
 
         await heroSectionModel.findByIdAndDelete(heroId);
 

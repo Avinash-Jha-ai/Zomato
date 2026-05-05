@@ -19,7 +19,7 @@ export const uploadProduct =async (req,res)=>{
             req.files.map(async (file) => {
                 const result = await uploadFile(file, `zomato/${userId}/product`);
                 return {
-                url: result.url,
+                url: result.secure_url,
                 public_id: result.public_id
                 };
             })
@@ -100,7 +100,8 @@ export const getProduct =async (req,res)=>{
 }
 
 export const deleteProduct =async (req,res)=>{
-    const {productId}=req.params;
+    const { product } = req.params;
+    const productId = product;
 
     try{
 
@@ -168,6 +169,43 @@ export const getNonVeg = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "error fetching non-veg products",
+      error: error.message
+    });
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  const { product: productId } = req.params;
+  const { title, description, price, available, veg } = req.body;
+
+  try {
+    const product = await productModel.findById(productId);
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+        success: false
+      });
+    }
+
+    if (title) product.title = title;
+    if (description) product.description = description;
+    if (price) product.price = price;
+    if (available !== undefined) product.available = available;
+    if (veg !== undefined) product.veg = veg;
+
+    await product.save();
+
+    return res.status(200).json({
+      message: "Product updated successfully",
+      success: true,
+      product
+    });
+
+  } catch (error) {
+    console.log("error in update product:", error);
+    return res.status(500).json({
+      success: false,
+      message: "error updating product",
       error: error.message
     });
   }

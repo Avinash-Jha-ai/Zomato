@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {authenticateAdmin ,authenticateUser} from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/upload.middleware.js";
-import {uploadProduct,getAllProduct,getProduct,deleteProduct,getVeg,getNonVeg} from "../controllers/product.controller.js"
+import {uploadProduct,getAllProduct,getProduct,deleteProduct,getVeg,getNonVeg,updateProduct} from "../controllers/product.controller.js"
 
 const router =Router();
 
@@ -12,6 +12,8 @@ router.get("/",authenticateUser,getAllProduct);
 router.get("/:product",authenticateUser,getProduct);
 
 router.get("/delete/:product",authenticateAdmin,deleteProduct);
+
+router.put("/update/:product",authenticateAdmin,updateProduct);
 
 router.get("/veg",authenticateUser,getVeg);
 

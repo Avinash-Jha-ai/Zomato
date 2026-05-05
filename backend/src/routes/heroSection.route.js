@@ -7,7 +7,7 @@ const router =Router();
 
 router.post("/upload",upload.single("hero"),authenticateAdmin,uploadHeroContent);
 
-router.get("/",authenticateUser,getHeroSection);
+router.get("/",getHeroSection);
 
 router.get("/delete/:hero",authenticateAdmin,deleteHeroSection);
 

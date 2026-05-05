@@ -1,6 +1,7 @@
 import express from "express"
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import cors from "cors";
 import authRouter from "./routes/auth.route.js"
 import heroRouter from "./routes/heroSection.route.js"
 import productRouter from "./routes/product.route.js";
@@ -8,10 +9,16 @@ import profileRouter from "./routes/profile.route.js"
 import cardRouter from "./routes/card.route.js"
 import searchRouter from "./routes/search.route.js"
 
+
 const app =express();
 
 
 
+
+app.use(cors({
+    origin: ["http://localhost:5173", "http://localhost:5174"], // Allowing both common Vite ports
+    credentials: true
+}));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

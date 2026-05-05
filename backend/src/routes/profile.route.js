@@ -16,6 +16,12 @@ router.post("/upload",authenticateUser,
 
 router.get("/",authenticateUser,getProfile);
 
-router.post("/update",authenticateUser,updateProfile);
+router.post("/update",authenticateUser,
+  upload.fields([
+    { name: "banner", maxCount: 1 },
+    { name: "avatar", maxCount: 1 }
+  ]),
+  updateProfile
+);
 
 export default router
