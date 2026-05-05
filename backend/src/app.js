@@ -13,6 +13,8 @@ import adminRouter from "./routes/admin.route.js"
 
 const app = express();
 
+app.use(express.static("public"));
+
 const allowedOrigins = [
     "http://localhost:5173", 
     "http://localhost:5174", 
