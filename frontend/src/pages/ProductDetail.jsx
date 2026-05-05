@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import { useProduct } from '../hooks/useProduct';
 import { useCart } from '../hooks/useCart';
 import { useToast } from '../contexts/ToastContext';
+import ProductCard from '../components/ProductCard';
 
 export default function ProductDetail() {
   const { id } = useParams();
