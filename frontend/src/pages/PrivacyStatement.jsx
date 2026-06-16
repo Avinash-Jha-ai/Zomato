@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-export default function PrivacyPolicy() {
+export default function PrivacyStatement() {
   return (
     <div className="page">
       <Navbar />

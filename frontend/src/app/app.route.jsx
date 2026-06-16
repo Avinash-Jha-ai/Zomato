@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Home from '../pages/Home';
 import AboutUs from '../pages/AboutUs';
-import PrivacyPolicy from '../pages/PrivacyPolicy';
+import PrivacyStatement from '../pages/PrivacyStatement';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import ProductDetail from '../pages/ProductDetail';
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Home /> },
       { path: '/about', element: <AboutUs /> },
-      { path: '/privacy', element: <PrivacyPolicy /> },
+      { path: '/privacy', element: <PrivacyStatement /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
       { path: '/product/:id', element: <ProductDetail /> },
